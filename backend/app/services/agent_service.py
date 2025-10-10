@@ -99,6 +99,28 @@ def apply_suggestion(
         after_state = {"task_id": task.id, "title": task.title}
         success = True
     
+    elif suggestion.suggestion_type == "flag_risk":
+        task_id = suggestion.payload.get("task_id")
+        task = db.query(Task).filter(Task.id == task_id).first()
+        if task:
+            before_state = {"is_potential_risk": task.is_potential_risk, "risk_reason": task.risk_reason}
+            task.is_potential_risk = True
+            task.risk_reason = suggestion.payload.get("reason")
+            after_state = {"is_potential_risk": True, "risk_reason": task.risk_reason}
+            target_id = task_id
+            success = True
+    
+    elif suggestion.suggestion_type == "set_priority":
+        task_id = suggestion.payload.get("task_id")
+        priority = suggestion.payload.get("suggested_priority")
+        task = db.query(Task).filter(Task.id == task_id).first()
+        if task:
+            before_state = {"priority": task.priority}
+            task.priority = priority
+            after_state = {"priority": priority}
+            target_id = task_id
+            success = True
+    
     elif suggestion.suggestion_type == "split_task":
         parent_id = suggestion.payload.get("parent_task_id")
         subtasks = suggestion.payload.get("subtasks", [])

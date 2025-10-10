@@ -10,10 +10,13 @@ const getNavItems = (role: string) => {
   switch(role) {
     case 'admin':
       return [
+        { path: '/briefing', label: 'Briefing' },
         { path: '/', label: 'Dashboard' },
         { path: '/meetings', label: 'Meetings' },
         { path: '/review', label: 'Review Tasks' },
         { path: '/tasks', label: 'All Tasks' },
+        { path: '/smart', label: 'Smart Actions' },
+        { path: '/analytics', label: 'Analytics' },
         { path: '/team', label: 'Team' },
         { path: '/reports', label: 'Reports' },
         { path: '/audit', label: 'Audit Trail' },
@@ -22,15 +25,19 @@ const getNavItems = (role: string) => {
     case 'manager':
     case 'product_owner':
       return [
+        { path: '/briefing', label: 'Briefing' },
         { path: '/', label: 'Dashboard' },
         { path: '/meetings', label: 'Meetings' },
         { path: '/review', label: 'Review Tasks' },
         { path: '/tasks', label: 'Team Tasks' },
         { path: '/blockers', label: 'Blockers' },
+        { path: '/smart', label: 'Smart Actions' },
+        { path: '/analytics', label: 'Analytics' },
         { path: '/reports', label: 'Reports' },
       ];
     default:
       return [
+        { path: '/briefing', label: 'Briefing' },
         { path: '/', label: 'Dashboard' },
         { path: '/tasks', label: 'My Tasks' },
         { path: '/reports', label: 'My Stats' },

@@ -25,25 +25,32 @@ Transform your meetings into actionable tasks automatically. Novito uses AI to e
 ## 🚀 Key Features
 
 ### For Administrators
+- **☀️ Smart Daily Briefing** - AI-generated morning summary with insights
 - **Meeting Upload** - Upload transcripts or audio files
 - **AI Task Review** - Review AI-extracted tasks before approval
+- **🤖 Smart Actions** - Proactive risk detection, workload rebalancing, auto-prioritization
 - **Task Assignment** - Assign tasks to team members
 - **Progress Monitoring** - Track completion across organization
 - **Team Management** - Manage users and permissions
+- **Audit Trail** - Full history with undo capability
 - **Reports & Analytics** - View productivity metrics
 
 ### For Team Members
+- **☀️ Personal Briefing** - Your focus list and quick wins
 - **My Tasks** - View assigned tasks with priorities
 - **Update Progress** - Mark tasks in progress or complete
-- **Add Notes** - Comment on tasks and blockers
+- **Submit for Review** - Mark work ready for QA
+- **Report Blockers** - Flag stuck tasks with reasons
 - **View Deadlines** - See upcoming due dates
-- **Collaborate** - Work together on shared tasks
+- **Quick Wins** - Small tasks for momentum
 
 ### For Managers
+- **☀️ Team Briefing** - Daily summary of team health
 - **Team Dashboard** - Monitor team task completion
+- **🤖 Smart Actions** - Auto-detect risks and rebalance workload
+- **Blocker Resolution** - See and resolve blocked tasks
 - **Workload View** - Balance task distribution
 - **Performance Metrics** - Track team productivity
-- **Bottleneck Detection** - Identify blocked tasks
 - **Resource Planning** - Allocate resources effectively
 
 ## 💡 Example Use Cases

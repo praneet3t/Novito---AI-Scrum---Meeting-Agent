@@ -10,6 +10,9 @@ import TeamPage from './pages/TeamPage';
 import SettingsPage from './pages/SettingsPage';
 import AuditPage from './pages/AuditPage';
 import BlockersPage from './pages/BlockersPage';
+import BriefingPage from './pages/BriefingPage';
+import SmartActionsPage from './pages/SmartActionsPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 import Layout from './components/Layout';
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/audit" element={<AuditPage />} />
           <Route path="/blockers" element={<BlockersPage />} />
+          <Route path="/briefing" element={<BriefingPage />} />
+          <Route path="/smart" element={<SmartActionsPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Layout>
