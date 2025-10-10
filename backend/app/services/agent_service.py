@@ -28,6 +28,30 @@ def create_suggestion(
     db.refresh(suggestion)
     return suggestion
 
+def reject_suggestion(
+    db: Session,
+    suggestion_id: int,
+    actor_id: int
+) -> bool:
+    """Reject an agent suggestion"""
+    suggestion = db.query(AgentSuggestion).filter(AgentSuggestion.id == suggestion_id).first()
+    if not suggestion:
+        return False
+    
+    suggestion.applied = True  # Mark as processed
+    audit = Audit(
+        workspace_id=suggestion.workspace_id,
+        actor_id=actor_id,
+        action_type="agent_suggestion_rejected",
+        target_type="suggestion",
+        target_id=suggestion_id,
+        before={"suggestion_type": suggestion.suggestion_type},
+        after={"rejected": True}
+    )
+    db.add(audit)
+    db.commit()
+    return True
+
 def apply_suggestion(
     db: Session,
     suggestion_id: int,

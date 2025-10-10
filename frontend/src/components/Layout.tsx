@@ -16,19 +16,24 @@ const getNavItems = (role: string) => {
         { path: '/tasks', label: 'All Tasks' },
         { path: '/team', label: 'Team' },
         { path: '/reports', label: 'Reports' },
+        { path: '/audit', label: 'Audit Trail' },
+        { path: '/settings', label: 'Settings' },
       ];
     case 'manager':
     case 'product_owner':
       return [
         { path: '/', label: 'Dashboard' },
         { path: '/meetings', label: 'Meetings' },
+        { path: '/review', label: 'Review Tasks' },
         { path: '/tasks', label: 'Team Tasks' },
+        { path: '/blockers', label: 'Blockers' },
         { path: '/reports', label: 'Reports' },
       ];
     default:
       return [
         { path: '/', label: 'Dashboard' },
         { path: '/tasks', label: 'My Tasks' },
+        { path: '/reports', label: 'My Stats' },
       ];
   }
 };

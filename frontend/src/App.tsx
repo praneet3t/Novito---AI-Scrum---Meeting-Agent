@@ -7,6 +7,9 @@ import ReviewQueue from './pages/ReviewQueue';
 import TasksPage from './pages/TasksPage';
 import ReportsPage from './pages/ReportsPage';
 import TeamPage from './pages/TeamPage';
+import SettingsPage from './pages/SettingsPage';
+import AuditPage from './pages/AuditPage';
+import BlockersPage from './pages/BlockersPage';
 import Layout from './components/Layout';
 
 function App() {
@@ -36,6 +39,9 @@ function App() {
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/audit" element={<AuditPage />} />
+          <Route path="/blockers" element={<BlockersPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Layout>

@@ -73,8 +73,33 @@ def update_task(task_id: int, update: TaskUpdate, db: Session = Depends(get_db))
     db.refresh(task)
     return task
 
+@router.patch("/{task_id}/submit")
+def submit_task_for_review(task_id: int, db: Session = Depends(get_db)):
+    """Submit task for review/QA"""
+    from datetime import datetime, timedelta
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    task.submitted_at = datetime.utcnow()
+    task.verification_deadline_at = datetime.utcnow() + timedelta(hours=24)
+    task.status = "qa"
+    
+    db.commit()
+    db.refresh(task)
+    return task
+
 @router.post("/capture")
 def capture_task(request: CaptureRequest, db: Session = Depends(get_db)):
     """Quick capture a task"""
     task = capture_quick_task(db, request.workspace_id, request.text, user_id=1)
     return task
+
+@router.get("/blockers")
+def get_blocked_tasks(workspace_id: int, db: Session = Depends(get_db)):
+    """Get all blocked tasks"""
+    tasks = db.query(Task).filter(
+        Task.workspace_id == workspace_id,
+        Task.is_blocked == True
+    ).all()
+    return tasks

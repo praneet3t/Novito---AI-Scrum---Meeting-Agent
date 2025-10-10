@@ -30,6 +30,36 @@ export default function TasksPage() {
     setSelectedTask(null);
   };
 
+  const handleSubmitForReview = async (taskId: number) => {
+    try {
+      await fetch(`http://localhost:8000/tasks/${taskId}/submit`, {
+        method: 'PATCH'
+      });
+      alert('✅ Task submitted for review');
+      setTasks(tasks.map(t => t.id === taskId ? { ...t, status: 'qa' } : t));
+      setSelectedTask(null);
+    } catch (error) {
+      alert('Failed to submit task');
+    }
+  };
+
+  const handleReportBlocker = async (taskId: number) => {
+    const reason = prompt('Why is this task blocked?');
+    if (!reason) return;
+    
+    try {
+      await fetch(`http://localhost:8000/tasks/${taskId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_blocked: true, blocker_reason: reason })
+      });
+      alert('🚫 Blocker reported');
+      setSelectedTask(null);
+    } catch (error) {
+      alert('Failed to report blocker');
+    }
+  };
+
   const getStatusColor = (status: string) => {
     const colors: any = {
       todo: 'bg-gray-100 text-gray-800',
@@ -173,6 +203,23 @@ export default function TasksPage() {
                     <strong>Priority:</strong> {selectedTask.priority}/10
                   </p>
                 </div>
+
+                {user !== 'admin' && selectedTask.status !== 'done' && (
+                  <div className="pt-4 border-t flex space-x-2">
+                    <button
+                      onClick={() => handleSubmitForReview(selectedTask.id)}
+                      className="flex-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                    >
+                      ✓ Submit for Review
+                    </button>
+                    <button
+                      onClick={() => handleReportBlocker(selectedTask.id)}
+                      className="flex-1 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                    >
+                      🚫 Report Blocker
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

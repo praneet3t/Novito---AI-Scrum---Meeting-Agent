@@ -104,8 +104,14 @@ Open http://localhost:5173
 | Role | Username | Password |
 |------|----------|----------|
 | Administrator | admin | admin123 |
-| Manager | manager | manager123 |
-| Team Member | member | member123 |
+| Manager | product_owner | po123 |
+| Team Member | dev1 | dev123 |
+
+**4. Seed Demo Data**
+```bash
+curl -X POST http://localhost:8000/seed/run-demo
+```
+Or visit: http://localhost:8000/docs and run the `/seed/run-demo` endpoint
 
 ## 📊 How It Works
 
@@ -218,6 +224,12 @@ No configuration needed for local development.
 
 ## 🧪 Testing
 
+**Test Phase 1 MVP Endpoints**
+```bash
+python test_endpoints.py
+```
+
+**Run Backend Tests**
 ```bash
 cd backend
 pip install -r requirements-test.txt
@@ -230,11 +242,17 @@ pytest tests/ -v
 docker-compose up
 ```
 
-## 📝 API Documentation
+## 📝 Documentation
 
-Once running, visit:
+**API Documentation**
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
+
+**Feature Documentation**
+- [FEATURES.md](FEATURES.md) - Complete feature specifications
+- [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) - What's built and working
+- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Technical architecture
+- [DELIVERY.md](DELIVERY.md) - Delivery summary
 
 ## 🔐 Security Note
 

@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
-from .routers import auth, meetings, tasks, sprints, analytics, agent
+from .routers import auth, meetings, tasks, sprints, analytics, agent, workspaces, audits
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -25,6 +25,8 @@ app.include_router(tasks.router)
 app.include_router(sprints.router)
 app.include_router(analytics.router)
 app.include_router(agent.router)
+app.include_router(workspaces.router)
+app.include_router(audits.router)
 
 @app.get("/")
 def root():
