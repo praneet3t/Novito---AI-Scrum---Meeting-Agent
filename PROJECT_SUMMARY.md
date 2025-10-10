@@ -2,7 +2,13 @@
 
 ## Overview
 
-Novito is a role-based project management platform with AI capabilities. Built with React + TypeScript frontend and FastAPI backend, it provides customized experiences for Admins, Product Owners, Developers, and QA Engineers.
+Novito is a domain-neutral meeting-to-task automation platform. It uses AI to extract actionable tasks from meeting transcripts, provides admin approval workflow, and tracks task completion across any organization.
+
+## Core Workflow
+
+```
+Meeting Transcript → AI Extraction → Admin Review → Task Assignment → Progress Tracking
+```
 
 ## Architecture
 
@@ -12,6 +18,8 @@ Frontend (React + TypeScript)
 Backend (FastAPI + Python)
     ↓
 Database (SQLite)
+    ↓
+AI (Google Gemini - Optional)
 ```
 
 ## Tech Stack
@@ -37,6 +45,7 @@ Novito/
 ├── README.md                    # Product documentation
 ├── PROJECT_SUMMARY.md           # This file
 ├── SCHEMAS.md                   # API schemas
+├── DELIVERY.md                  # Delivery summary
 ├── backend/
 │   ├── app/
 │   │   ├── main.py             # FastAPI app
@@ -49,6 +58,12 @@ Novito/
     └── src/
         ├── App.tsx             # Main app
         ├── pages/              # Page components
+        │   ├── Dashboard.tsx
+        │   ├── MeetingsPage.tsx
+        │   ├── ReviewQueue.tsx
+        │   ├── TasksPage.tsx
+        │   ├── ReportsPage.tsx
+        │   └── TeamPage.tsx
         ├── components/         # Reusable components
         └── services/           # API client
 ```
@@ -57,18 +72,71 @@ Novito/
 
 **Core Tables**
 - users (id, username, password, role)
-- workspaces (id, name, settings)
-- teams (id, workspace_id, name)
-- tasks (id, title, status, assignee_id, priority)
-- sprints (id, name, start_date, end_date)
-- meetings (id, title, transcript)
-- audits (id, action, user_id, timestamp)
+- meetings (id, title, transcript, date)
+- tasks (id, title, description, assignee, status, priority, progress)
+- teams (id, name, members)
+
+## User Roles
+
+**Administrator**
+- Process meetings with AI
+- Review and approve extracted tasks
+- Assign tasks to team members
+- Manage team members
+- View all tasks and reports
+
+**Manager**
+- View team tasks
+- Monitor team performance
+- Access reports and analytics
+- Process meetings
+
+**Team Member**
+- View assigned tasks
+- Update task progress
+- Mark tasks complete
+
+## Key Features
+
+### 1. Meeting Processing
+- Upload meeting transcript
+- AI extracts tasks automatically
+- Identifies assignees, priorities, deadlines
+- Confidence scoring for each task
+
+### 2. Review & Approval
+- Admin reviews AI-extracted tasks
+- Edit task details before approval
+- Approve or reject suggestions
+- Bulk approval options
+
+### 3. Task Management
+- View tasks by status (To Do, In Progress, Done)
+- Update progress with slider
+- Change task status
+- Filter and search tasks
+
+### 4. Team Management
+- Add/edit team members
+- View member workload
+- Track individual performance
+- Assign tasks to members
+
+### 5. Reports & Analytics
+- Task completion trends
+- Team performance metrics
+- Productivity charts
+- Export capabilities
 
 ## API Endpoints
 
 **Authentication**
 - POST /auth/login
 - GET /auth/me
+
+**Meetings**
+- POST /meetings/process
+- GET /meetings/
 
 **Tasks**
 - GET /tasks/
@@ -80,35 +148,6 @@ Novito/
 - GET /analytics/briefing
 - GET /analytics/velocity
 - GET /analytics/distribution
-
-**Admin**
-- POST /seed/run-demo
-
-## Role-Based Access
-
-**Admin**
-- User Management
-- System Settings
-- Reports
-- Audit Logs
-
-**Product Owner**
-- Backlog Management
-- Sprint Planning
-- Roadmap
-- Stakeholder Communication
-
-**Developer**
-- Task Board
-- Code Reviews
-- Pull Requests
-- Documentation
-
-**QA Engineer**
-- Test Cases
-- Bug Reports
-- Test Automation
-- Quality Metrics
 
 ## Quick Start
 
@@ -131,37 +170,26 @@ Access: http://localhost:5173
 ## Demo Accounts
 
 - admin / admin123
-- product_owner / po123
-- dev1 / dev123
-- qa1 / qa123
+- manager / manager123
+- member / member123
 
-## Key Features
+## Domain Neutral Design
 
-1. **Role-Based Dashboards** - Each role sees relevant metrics and actions
-2. **Task Management** - Create, assign, track tasks with progress
-3. **Analytics** - Charts showing velocity, distribution, trends
-4. **Responsive UI** - Works on desktop and mobile
-5. **Real-time Updates** - Instant feedback on actions
-
-## Development
-
-**Run Tests**
-```bash
-cd backend
-pytest tests/ -v
-```
-
-**Build for Production**
-```bash
-cd frontend
-npm run build
-```
+Works for ANY organization:
+- Healthcare (patient care tasks)
+- Construction (inspections, orders)
+- Education (curriculum planning)
+- Ocean Services (vessel maintenance)
+- Finance (audit items)
+- Manufacturing (production schedules)
+- Retail (inventory management)
+- Legal (case tasks)
 
 ## Environment Variables
 
 ```bash
 # Backend (optional)
-GEMINI_API_KEY=your-key
+GEMINI_API_KEY=your-key  # For AI features
 DATABASE_URL=sqlite:///./novito.db
 
 # Frontend
@@ -177,8 +205,8 @@ docker-compose up
 
 **Manual**
 1. Build frontend: `npm run build`
-2. Serve static files with backend
-3. Run backend with production server (gunicorn)
+2. Run backend with production server
+3. Serve static files
 
 ## Security Notes
 
@@ -186,14 +214,13 @@ docker-compose up
 - Plain text passwords
 - No JWT tokens
 - No rate limiting
-- No HTTPS enforcement
 
-For production, implement proper security measures.
+For production, implement proper security.
 
 ## Performance
 
 - Frontend: Vite HMR for fast development
-- Backend: Async FastAPI for concurrent requests
+- Backend: Async FastAPI
 - Database: SQLite for simple deployment
 - Charts: Recharts with optimized rendering
 
@@ -211,6 +238,7 @@ MIT License - Demo/Educational purposes
 ---
 
 **Total Files**: 50+  
-**Lines of Code**: ~3,500+  
+**Lines of Code**: ~4,000+  
 **API Endpoints**: 20+  
-**Database Tables**: 15+
+**Database Tables**: 10+  
+**User Roles**: 3
