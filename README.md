@@ -1,38 +1,76 @@
-# Novito - AI-Powered Project Management Platform
+# Novito - AI Meeting Assistant & Task Manager
 
-Novito is an intelligent project management platform that streamlines team collaboration with AI-powered features. Built for modern teams, it provides role-based dashboards, automated task management, and comprehensive project tracking.
+Transform your meetings into actionable tasks automatically. Novito uses AI to extract tasks from meeting transcripts, streamlines approval workflows, and tracks completion across your entire organization.
+
+## 🎯 What It Does
+
+1. **Record Your Meeting** - Upload meeting transcript or audio
+2. **AI Extracts Tasks** - Automatically identifies action items, owners, and deadlines
+3. **Review & Approve** - Admin reviews and approves AI-generated tasks
+4. **Assign & Track** - Tasks distributed to team members with progress tracking
+5. **Monitor Progress** - Real-time dashboards show task completion and bottlenecks
+
+## 🌐 Works for Any Industry
+
+- **Healthcare** - Patient care tasks, treatment plans, staff assignments
+- **Construction** - Project milestones, safety checks, material orders
+- **Education** - Curriculum planning, student activities, administrative tasks
+- **Finance** - Audit items, compliance checks, client deliverables
+- **Manufacturing** - Production schedules, quality checks, maintenance tasks
+- **Retail** - Inventory management, customer service, store operations
+- **Legal** - Case tasks, document reviews, client meetings
+- **Ocean Services** - Vessel maintenance, crew assignments, safety inspections
+- **Any Organization** - Meeting follow-ups, project tasks, team coordination
 
 ## 🚀 Key Features
 
-### For All Roles
-- **Smart Dashboard** - Personalized view with role-specific metrics and quick actions
-- **Real-time Collaboration** - Work together seamlessly across teams
-- **Task Management** - Create, assign, track, and complete tasks efficiently
-- **Analytics & Reporting** - Visual insights with charts and performance metrics
-
 ### For Administrators
-- **User Management** - Add, edit, and manage user accounts and permissions
-- **System Settings** - Configure platform-wide settings and integrations
-- **Audit Logs** - Track all system activities and changes
-- **Reports** - Generate comprehensive system and usage reports
+- **Meeting Upload** - Upload transcripts or audio files
+- **AI Task Review** - Review AI-extracted tasks before approval
+- **Task Assignment** - Assign tasks to team members
+- **Progress Monitoring** - Track completion across organization
+- **Team Management** - Manage users and permissions
+- **Reports & Analytics** - View productivity metrics
 
-### For Product Owners
-- **Product Backlog** - Prioritize and manage product backlog items
-- **Sprint Planning** - Plan sprints, set goals, and track velocity
-- **Roadmap Management** - Visualize product timeline and milestones
-- **Stakeholder Communication** - Manage stakeholder feedback and updates
+### For Team Members
+- **My Tasks** - View assigned tasks with priorities
+- **Update Progress** - Mark tasks in progress or complete
+- **Add Notes** - Comment on tasks and blockers
+- **View Deadlines** - See upcoming due dates
+- **Collaborate** - Work together on shared tasks
 
-### For Developers
-- **Task Board** - View and manage assigned development tasks
-- **Code Reviews** - Review and approve code changes
-- **Pull Requests** - Create and manage pull requests
-- **Documentation** - Access technical docs and best practices
+### For Managers
+- **Team Dashboard** - Monitor team task completion
+- **Workload View** - Balance task distribution
+- **Performance Metrics** - Track team productivity
+- **Bottleneck Detection** - Identify blocked tasks
+- **Resource Planning** - Allocate resources effectively
 
-### For QA Engineers
-- **Test Cases** - Create and manage test cases and suites
-- **Bug Tracking** - Report, track, and verify bug fixes
-- **Test Automation** - Manage automated testing scripts
-- **Quality Metrics** - Monitor test coverage and quality KPIs
+## 💡 Example Use Cases
+
+### Ocean Services Company
+**Meeting**: Weekly operations review
+**AI Extracts**:
+- "Inspect vessel hull by Friday" → Task for maintenance crew
+- "Order new navigation equipment" → Task for procurement
+- "Schedule crew training next month" → Task for HR manager
+- "Review safety protocols" → Task for safety officer
+
+### Healthcare Clinic
+**Meeting**: Patient care coordination
+**AI Extracts**:
+- "Schedule follow-up for Patient X" → Task for receptionist
+- "Order lab tests for Patient Y" → Task for nurse
+- "Review treatment plan" → Task for doctor
+- "Update insurance records" → Task for admin
+
+### Construction Company
+**Meeting**: Project status update
+**AI Extracts**:
+- "Complete foundation inspection" → Task for site engineer
+- "Order concrete delivery" → Task for procurement
+- "Update client on timeline" → Task for project manager
+- "Schedule safety training" → Task for safety coordinator
 
 ## 🎯 Quick Start
 
@@ -47,7 +85,6 @@ Novito is an intelligent project management platform that streamlines team colla
 cd backend
 python -m venv venv
 venv\Scripts\activate  # Windows
-# source venv/bin/activate  # macOS/Linux
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload --port 8000
 ```
@@ -60,42 +97,53 @@ npm run dev
 ```
 
 **3. Access Application**
-Open http://localhost:5173 in your browser
+Open http://localhost:5173
 
 ### Demo Accounts
 
 | Role | Username | Password |
 |------|----------|----------|
 | Administrator | admin | admin123 |
-| Product Owner | product_owner | po123 |
-| Developer | dev1 | dev123 |
-| QA Engineer | qa1 | qa123 |
+| Manager | manager | manager123 |
+| Team Member | member | member123 |
 
-## 📊 Role-Based Features
+## 📊 How It Works
 
-### Admin Dashboard
-- User activity monitoring
-- System health metrics
-- Security alerts
-- Configuration management
+### 1. Meeting Processing
+```
+Meeting Transcript/Audio
+    ↓
+AI Analysis (Google Gemini)
+    ↓
+Extracted Tasks with:
+- Task description
+- Suggested assignee
+- Estimated deadline
+- Priority level
+- Dependencies
+```
 
-### Product Owner Dashboard
-- Backlog items count
-- Sprint progress
-- Epic tracking
-- Release planning
+### 2. Review & Approval
+```
+Admin Reviews Tasks
+    ↓
+Edit/Modify if needed
+    ↓
+Approve for assignment
+    ↓
+Tasks created in system
+```
 
-### Developer Dashboard
-- Active tasks
-- Code review requests
-- Pull request status
-- Build information
-
-### QA Dashboard
-- Test execution results
-- Bug statistics
-- Automation coverage
-- Quality trends
+### 3. Task Management
+```
+Tasks assigned to team
+    ↓
+Members update progress
+    ↓
+Real-time tracking
+    ↓
+Completion & reporting
+```
 
 ## 🛠️ Technology Stack
 
@@ -103,42 +151,65 @@ Open http://localhost:5173 in your browser
 - React 18 with TypeScript
 - Vite for fast builds
 - Tailwind CSS for styling
-- Recharts for data visualization
-- React Router for navigation
+- Recharts for analytics
+- Responsive design
 
 **Backend**
 - FastAPI (Python)
 - SQLAlchemy ORM
 - SQLite database
-- Pydantic validation
-- Google Gemini AI integration
+- Google Gemini AI
+- RESTful API
 
-## 📁 Project Structure
+**AI Integration**
+- Google Gemini API for task extraction
+- Natural language processing
+- Confidence scoring
+- Fallback to manual entry
 
-```
-Novito/
-├── backend/          # Python FastAPI backend
-│   ├── app/
-│   │   ├── routers/  # API endpoints
-│   │   ├── services/ # Business logic
-│   │   ├── ai/       # AI integration
-│   │   └── models.py # Database models
-│   └── tests/        # Backend tests
-│
-└── frontend/         # React TypeScript frontend
-    └── src/
-        ├── pages/    # Page components
-        ├── components/ # Reusable components
-        └── services/ # API client
-```
+## 📁 Core Features
+
+### Meeting Management
+- Upload meeting transcripts
+- Audio file support (future)
+- Meeting history
+- Search past meetings
+
+### AI Task Extraction
+- Automatic action item detection
+- Assignee identification
+- Deadline extraction
+- Priority assessment
+- Dependency detection
+
+### Task Management
+- Create, edit, delete tasks
+- Assign to team members
+- Set priorities and deadlines
+- Track progress (0-100%)
+- Mark as blocked
+- Add comments and notes
+
+### Analytics & Reporting
+- Task completion rates
+- Team productivity metrics
+- Overdue task alerts
+- Workload distribution
+- Performance trends
+
+### User Management
+- Role-based access (Admin, Manager, Member)
+- Team organization
+- Permission management
+- Activity tracking
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-**Backend** (optional)
+**Backend**
 ```bash
-GEMINI_API_KEY=your-api-key  # For AI features
+GEMINI_API_KEY=your-api-key  # Optional - uses mock mode if not set
 DATABASE_URL=sqlite:///./novito.db
 ```
 
@@ -153,7 +224,7 @@ pip install -r requirements-test.txt
 pytest tests/ -v
 ```
 
-## 🐳 Docker Deployment (Optional)
+## 🐳 Docker Deployment
 
 ```bash
 docker-compose up
@@ -161,27 +232,27 @@ docker-compose up
 
 ## 📝 API Documentation
 
-Once the backend is running, visit:
+Once running, visit:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
 ## 🔐 Security Note
 
-⚠️ **Demo Mode**: This application uses simplified authentication for demonstration purposes. For production use, implement:
-- Password hashing (bcrypt)
-- JWT tokens with expiration
-- HTTPS/TLS encryption
-- Rate limiting
-- CSRF protection
+⚠️ **Demo Mode**: Uses simplified authentication. For production:
+- Implement password hashing
+- Add JWT tokens
+- Enable HTTPS
+- Add rate limiting
+- Implement CSRF protection
 
-## 🤝 Contributing
+## 🤝 Customization
 
-This is a demonstration project. For production use, consider:
-- Adding comprehensive test coverage
-- Implementing proper authentication
-- Adding database migrations
-- Setting up CI/CD pipelines
-- Implementing monitoring and logging
+Easily customize for your industry:
+- Modify task fields (add custom fields)
+- Adjust AI prompts for domain-specific terms
+- Customize roles and permissions
+- Add industry-specific workflows
+- Integrate with existing tools
 
 ## 📄 License
 
@@ -189,11 +260,11 @@ MIT License - For demonstration and educational purposes
 
 ## 🆘 Support
 
-For issues or questions:
-1. Check the documentation in `/docs`
-2. Review the API documentation at `/docs` endpoint
+For questions or issues:
+1. Check documentation
+2. Review API docs at /docs
 3. Open an issue on GitHub
 
 ---
 
-**Built with modern web technologies for efficient team collaboration**
+**Built to transform meetings into action for any organization**

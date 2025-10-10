@@ -1,20 +1,22 @@
 import { useState } from 'react';
 
 const allTasks = [
-  { id: 1, title: 'Implement OAuth2 login', description: 'Add OAuth2 authentication with Google and GitHub', status: 'in_progress', assignee: 'dev1', priority: 9, progress: 60 },
-  { id: 2, title: 'Write test cases for login', description: 'Comprehensive test coverage', status: 'todo', assignee: 'qa1', priority: 7, progress: 0 },
-  { id: 3, title: 'Design dashboard wireframes', description: 'Create wireframes for analytics', status: 'done', assignee: 'product_owner', priority: 8, progress: 100 },
-  { id: 4, title: 'Implement burndown chart', description: 'Build interactive chart', status: 'qa', assignee: 'dev1', priority: 6, progress: 100 },
-  { id: 5, title: 'Fix database migration', description: 'Resolve schema conflicts', status: 'in_progress', assignee: 'dev1', priority: 10, progress: 30, blocked: true },
-  { id: 6, title: 'Refactor API endpoints', description: 'Large refactoring task', status: 'todo', assignee: 'dev1', priority: 5, progress: 0 },
+  { id: 1, title: 'Complete safety inspection', description: 'Thorough inspection required for compliance', status: 'in_progress', assignee: 'John', priority: 9, progress: 60 },
+  { id: 2, title: 'Order new equipment', description: 'Get quotes from suppliers', status: 'todo', assignee: 'Sarah', priority: 7, progress: 0 },
+  { id: 3, title: 'Schedule team training', description: 'Coordinate with HR for training dates', status: 'todo', assignee: 'Mike', priority: 6, progress: 0 },
+  { id: 4, title: 'Update client report', description: 'Quarterly progress report', status: 'done', assignee: 'Manager', priority: 8, progress: 100 },
+  { id: 5, title: 'Review budget allocation', description: 'Q2 budget review', status: 'in_progress', assignee: 'Manager', priority: 10, progress: 40 },
+  { id: 6, title: 'Prepare presentation', description: 'Board meeting presentation', status: 'todo', assignee: 'Admin', priority: 9, progress: 0 },
 ];
 
 export default function TasksPage() {
   const [filter, setFilter] = useState('all');
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [tasks, setTasks] = useState(allTasks);
+  const [user] = useState(localStorage.getItem('token') || 'admin');
 
   const filteredTasks = filter === 'all' ? tasks : tasks.filter(t => t.status === filter);
+  const displayTasks = user === 'admin' ? filteredTasks : filteredTasks.filter(t => t.assignee.toLowerCase() === user);
 
   const handleUpdateProgress = (taskId: number, progress: number) => {
     setTasks(tasks.map(t => t.id === taskId ? { ...t, progress } : t));
@@ -24,7 +26,7 @@ export default function TasksPage() {
   };
 
   const handleUpdateStatus = (taskId: number, status: string) => {
-    setTasks(tasks.map(t => t.id === taskId ? { ...t, status } : t));
+    setTasks(tasks.map(t => t.id === taskId ? { ...t, status, progress: status === 'done' ? 100 : t.progress } : t));
     setSelectedTask(null);
   };
 
@@ -32,21 +34,24 @@ export default function TasksPage() {
     const colors: any = {
       todo: 'bg-gray-100 text-gray-800',
       in_progress: 'bg-blue-100 text-blue-800',
-      qa: 'bg-yellow-100 text-yellow-800',
       done: 'bg-green-100 text-green-800',
-      released: 'bg-purple-100 text-purple-800'
     };
     return colors[status] || 'bg-gray-100 text-gray-800';
   };
 
-
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-800">Tasks</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            {user === 'admin' ? 'All Tasks' : 'My Tasks'}
+          </h1>
+          <p className="text-gray-600 mt-1">
+            {user === 'admin' ? 'Manage all team tasks' : 'View and update your assigned tasks'}
+          </p>
+        </div>
         <div className="flex space-x-2">
-          {['all', 'todo', 'in_progress', 'qa', 'done'].map((status) => (
+          {['all', 'todo', 'in_progress', 'done'].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -56,19 +61,19 @@ export default function TasksPage() {
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              {status.replace('_', ' ')}
+              {status === 'all' ? 'All' : status.replace('_', ' ')}
             </button>
           ))}
         </div>
       </div>
 
-      {filteredTasks.length === 0 ? (
+      {displayTasks.length === 0 ? (
         <div className="bg-white p-12 rounded-lg shadow text-center">
           <p className="text-gray-600">No tasks found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {filteredTasks.map((task) => (
+          {displayTasks.map((task) => (
             <div
               key={task.id}
               className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow cursor-pointer"
@@ -78,11 +83,6 @@ export default function TasksPage() {
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-2">
                     <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
-                    {task.is_blocked && (
-                      <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">
-                        🚫 Blocked
-                      </span>
-                    )}
                   </div>
                   
                   <p className="text-gray-600 text-sm mb-3">{task.description}</p>
@@ -91,21 +91,12 @@ export default function TasksPage() {
                     <span className={`px-3 py-1 rounded-full ${getStatusColor(task.status)}`}>
                       {task.status.replace('_', ' ')}
                     </span>
-                    {task.priority && (
-                      <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                        P{task.priority}
-                      </span>
-                    )}
-                    {task.effort_tag && (
-                      <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
-                        {task.effort_tag}
-                      </span>
-                    )}
-                    {task.story_points && (
-                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                        {task.story_points} pts
-                      </span>
-                    )}
+                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                      Priority: {task.priority}
+                    </span>
+                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                      👤 {task.assignee}
+                    </span>
                   </div>
 
                   {task.progress > 0 && (
@@ -116,7 +107,7 @@ export default function TasksPage() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
-                          className="bg-indigo-600 h-2 rounded-full"
+                          className="bg-indigo-600 h-2 rounded-full transition-all"
                           style={{ width: `${task.progress}%` }}
                         />
                       </div>
@@ -138,7 +129,7 @@ export default function TasksPage() {
                 <h2 className="text-2xl font-bold text-gray-800">{selectedTask.title}</h2>
                 <button
                   onClick={() => setSelectedTask(null)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   ✕
                 </button>
@@ -170,18 +161,18 @@ export default function TasksPage() {
                   >
                     <option value="todo">To Do</option>
                     <option value="in_progress">In Progress</option>
-                    <option value="qa">QA</option>
                     <option value="done">Done</option>
-                    <option value="released">Released</option>
                   </select>
                 </div>
 
-                {selectedTask.is_blocked && (
-                  <div className="bg-red-50 border border-red-200 rounded p-3">
-                    <p className="text-sm font-medium text-red-800">Blocker:</p>
-                    <p className="text-sm text-red-700">{selectedTask.blocker_reason}</p>
-                  </div>
-                )}
+                <div className="pt-4 border-t">
+                  <p className="text-sm text-gray-600">
+                    <strong>Assigned to:</strong> {selectedTask.assignee}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <strong>Priority:</strong> {selectedTask.priority}/10
+                  </p>
+                </div>
               </div>
             </div>
           </div>

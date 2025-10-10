@@ -16,22 +16,33 @@ export default function MeetingsPage() {
     setProcessing(true);
     setTimeout(() => {
       const extracted = [
-        { description: 'Implement OAuth2 login', assignee: 'dev1', priority: 9, effort_tag: 'large', confidence: 0.92, is_blocked: false },
-        { description: 'Write test cases for login flow', assignee: 'qa1', priority: 7, effort_tag: 'medium', confidence: 0.85, is_blocked: false },
+        { description: 'Complete safety inspection by Friday', assignee: 'John', priority: 9, effort_tag: 'medium', confidence: 0.92, is_blocked: false },
+        { description: 'Order new equipment from supplier', assignee: 'Sarah', priority: 7, effort_tag: 'small', confidence: 0.85, is_blocked: false },
+        { description: 'Schedule team training session', assignee: 'Mike', priority: 6, effort_tag: 'medium', confidence: 0.78, is_blocked: false },
       ];
       setCandidates(extracted);
       setShowResults(true);
       setProcessing(false);
-    }, 1000);
+    }, 1500);
   };
 
   const useSample = () => {
-    setTitle('Daily Standup');
-    setTranscript(`Dev1: I will continue working on OAuth2 login. I'm 60% done. Should be ready by Friday.
-QA1: I'll start writing test cases for the login flow once Dev1 finishes. This depends on Dev1 completing the implementation.
-PO: Great progress. Dev1, is anything blocking you?
-Dev1: No blockers right now.
-QA1: I also need to update the test automation framework. That's a large task, probably 8 hours of work.`);
+    setTitle('Weekly Operations Meeting');
+    setTranscript(`Team Lead: Good morning everyone. Let's review this week's priorities.
+
+John: I will complete the safety inspection by Friday. It's critical for compliance.
+
+Sarah: I need to order new equipment from our supplier. The current tools are worn out.
+
+Mike: I'll schedule the team training session for next month. We need to cover the new procedures.
+
+Team Lead: Great. John, make sure the inspection is thorough. Sarah, get quotes from at least two suppliers. Mike, coordinate with HR on the training dates.
+
+John: Will do. I'll also document any issues I find.
+
+Sarah: I'll have the quotes ready by Wednesday.
+
+Mike: I'll send out a calendar invite once I confirm with HR.`);
   };
 
   return (
@@ -47,12 +58,12 @@ QA1: I also need to update the test automation framework. That's a large task, p
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="e.g., Daily Standup"
+              placeholder="e.g., Weekly Operations Meeting"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Transcript</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Meeting Transcript</label>
             <textarea
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
@@ -68,13 +79,13 @@ QA1: I also need to update the test automation framework. That's a large task, p
               disabled={processing}
               className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 disabled:bg-gray-400"
             >
-              {processing ? 'Processing...' : '🤖 Process with AI'}
+              {processing ? 'Processing...' : '🤖 Extract Tasks with AI'}
             </button>
             <button
               onClick={useSample}
               className="bg-gray-200 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-300"
             >
-              Use Sample
+              Use Sample Transcript
             </button>
           </div>
         </div>
@@ -83,7 +94,7 @@ QA1: I also need to update the test automation framework. That's a large task, p
       {showResults && (
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">
-            Extracted Tasks ({candidates.length})
+            ✨ AI Extracted Tasks ({candidates.length})
           </h2>
           
           {candidates.length === 0 ? (
@@ -114,11 +125,6 @@ QA1: I also need to update the test automation framework. That's a large task, p
                         <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded">
                           Confidence: {(candidate.confidence * 100).toFixed(0)}%
                         </span>
-                        {candidate.is_blocked && (
-                          <span className="bg-red-100 text-red-800 px-2 py-1 rounded">
-                            🚫 Blocked
-                          </span>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -129,7 +135,7 @@ QA1: I also need to update the test automation framework. That's a large task, p
 
           <div className="mt-4 p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-blue-800">
-              ℹ️ Tasks have been added to the Review Queue. Go to the Review page to approve them.
+              ℹ️ Tasks have been extracted. Go to the <strong>Review Tasks</strong> page to approve them.
             </p>
           </div>
         </div>

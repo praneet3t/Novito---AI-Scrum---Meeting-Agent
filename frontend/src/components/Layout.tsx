@@ -11,37 +11,25 @@ const getNavItems = (role: string) => {
     case 'admin':
       return [
         { path: '/', label: 'Dashboard' },
-        { path: '/users', label: 'User Management' },
-        { path: '/settings', label: 'System Settings' },
+        { path: '/meetings', label: 'Meetings' },
+        { path: '/review', label: 'Review Tasks' },
+        { path: '/tasks', label: 'All Tasks' },
+        { path: '/team', label: 'Team' },
         { path: '/reports', label: 'Reports' },
-        { path: '/audit', label: 'Audit Logs' },
       ];
+    case 'manager':
     case 'product_owner':
       return [
         { path: '/', label: 'Dashboard' },
-        { path: '/backlog', label: 'Backlog' },
-        { path: '/sprints', label: 'Sprint Planning' },
-        { path: '/roadmap', label: 'Roadmap' },
-        { path: '/stakeholders', label: 'Stakeholders' },
+        { path: '/meetings', label: 'Meetings' },
+        { path: '/tasks', label: 'Team Tasks' },
+        { path: '/reports', label: 'Reports' },
       ];
-    case 'dev1':
+    default:
       return [
         { path: '/', label: 'Dashboard' },
         { path: '/tasks', label: 'My Tasks' },
-        { path: '/code-review', label: 'Code Reviews' },
-        { path: '/pull-requests', label: 'Pull Requests' },
-        { path: '/docs', label: 'Documentation' },
       ];
-    case 'qa1':
-      return [
-        { path: '/', label: 'Dashboard' },
-        { path: '/test-cases', label: 'Test Cases' },
-        { path: '/bug-reports', label: 'Bug Reports' },
-        { path: '/automation', label: 'Test Automation' },
-        { path: '/metrics', label: 'Quality Metrics' },
-      ];
-    default:
-      return [{ path: '/', label: 'Dashboard' }];
   }
 };
 
@@ -65,7 +53,7 @@ export default function Layout({ children, onLogout }: LayoutProps) {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm bg-indigo-700 px-3 py-1 rounded">{user}</span>
+              <span className="text-sm bg-indigo-700 px-3 py-1 rounded capitalize">{user}</span>
               <button onClick={onLogout} className="hover:bg-indigo-700 px-4 py-2 rounded">
                 Logout
               </button>
