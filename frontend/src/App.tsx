@@ -13,6 +13,8 @@ import BlockersPage from './pages/BlockersPage';
 import BriefingPage from './pages/BriefingPage';
 import SmartActionsPage from './pages/SmartActionsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import ChatAgentPage from './pages/ChatAgentPage';
+import ExecutiveBriefing from './pages/ExecutiveBriefing';
 import Layout from './components/Layout';
 
 function App() {
@@ -48,6 +50,8 @@ function App() {
           <Route path="/briefing" element={<BriefingPage />} />
           <Route path="/smart" element={<SmartActionsPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/chat" element={<ChatAgentPage />} />
+          <Route path="/executive" element={<ExecutiveBriefing />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Layout>
