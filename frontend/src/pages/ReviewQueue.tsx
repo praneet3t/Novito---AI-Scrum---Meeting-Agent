@@ -33,7 +33,7 @@ export default function ReviewQueue() {
       await fetch(`http://localhost:8000/agent/suggestions/${suggestionId}/apply?actor_id=1`, {
         method: 'PATCH'
       });
-      alert('✅ Task created successfully');
+      alert('Task created successfully');
       fetchSuggestions();
     } catch (error) {
       alert('Failed to apply suggestion');
@@ -57,86 +57,86 @@ export default function ReviewQueue() {
   };
 
   if (loading) {
-    return <div className="text-center py-12">Loading suggestions...</div>;
+    return <div className="text-center py-12 text-[var(--color-text-secondary)]">Loading suggestions...</div>;
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex justify-between items-end border-b border-[var(--color-border)] pb-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Review AI-Extracted Tasks</h1>
-          <p className="text-gray-600 mt-1">Review and approve tasks before assigning to team members</p>
+          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Review Queue</h1>
+          <p className="text-[var(--color-text-secondary)] mt-1 text-sm">Review AI-extracted tasks before assignment.</p>
         </div>
       </div>
 
       {suggestions.length === 0 ? (
-        <div className="bg-white p-12 rounded-lg shadow text-center">
-          <div className="text-6xl mb-4">✅</div>
-          <p className="text-gray-600 text-lg">No tasks pending review</p>
-          <p className="text-gray-500 text-sm mt-2">
-            Process a meeting transcript to generate tasks for review
+        <div className="card p-12 text-center">
+          <div className="text-4xl mb-4 text-[var(--color-text-tertiary)]">✓</div>
+          <p className="text-[var(--color-text-primary)] text-lg font-medium">All caught up</p>
+          <p className="text-[var(--color-text-secondary)] text-sm mt-2">
+            No pending suggestions to review.
           </p>
         </div>
       ) : (
         <div className="space-y-4">
           {suggestions.map((suggestion) => (
-            <div key={suggestion.id} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+            <div key={suggestion.id} className="card p-6 hover:border-[var(--color-text-secondary)] transition-colors">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-3">
-                    <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="badge badge-primary">
                       {suggestion.type}
                     </span>
-                    <span className="text-sm text-gray-600">
-                      AI Confidence: {(suggestion.confidence * 100).toFixed(0)}%
+                    <span className="text-xs text-[var(--color-text-secondary)]">
+                      Confidence: {(suggestion.confidence * 100).toFixed(0)}%
                     </span>
                   </div>
 
                   <div className="mb-3">
-                    <h3 className="font-semibold text-lg text-gray-800 mb-2">
+                    <h3 className="font-semibold text-lg text-[var(--color-text-primary)] mb-2">
                       {suggestion.payload?.title || suggestion.suggestion_type}
                     </h3>
-                    <div className="flex flex-wrap gap-2 text-sm">
+                    <div className="flex flex-wrap gap-2 text-xs">
                       {suggestion.payload?.assignee_id && (
-                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded">
-                          👤 Assignee ID: {suggestion.payload.assignee_id}
+                        <span className="badge badge-neutral">
+                          Assignee: {suggestion.payload.assignee_id}
                         </span>
                       )}
                       {suggestion.payload?.priority && (
-                        <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded">
+                        <span className="badge badge-warning">
                           Priority: {suggestion.payload.priority}
                         </span>
                       )}
                       {suggestion.payload?.effort_tag && (
-                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded">
+                        <span className="badge badge-info">
                           Effort: {suggestion.payload.effort_tag}
                         </span>
                       )}
                     </div>
                     {suggestion.payload?.description && (
-                      <p className="text-gray-600 text-sm mt-2">{suggestion.payload.description}</p>
+                      <p className="text-[var(--color-text-secondary)] text-sm mt-3 leading-relaxed">{suggestion.payload.description}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col space-y-2 ml-4">
+                <div className="flex flex-col space-y-2 ml-6">
                   <button
                     onClick={() => handleApprove(suggestion.id)}
-                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 whitespace-nowrap"
+                    className="btn btn-primary w-24"
                   >
-                    ✓ Approve
+                    Approve
                   </button>
                   <button
                     onClick={() => handleEdit(suggestion.id)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 whitespace-nowrap"
+                    className="btn btn-secondary w-24"
                   >
-                    ✏️ Edit
+                    Edit
                   </button>
                   <button
                     onClick={() => handleReject(suggestion.id)}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 whitespace-nowrap"
+                    className="btn btn-secondary w-24 text-red-600 hover:bg-red-50 hover:border-red-200"
                   >
-                    ✗ Reject
+                    Reject
                   </button>
                 </div>
               </div>
@@ -144,12 +144,6 @@ export default function ReviewQueue() {
           ))}
         </div>
       )}
-
-      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-        <p className="text-yellow-800">
-          💡 <strong>Tip:</strong> Review each task carefully. You can edit details before approving or reject tasks that don't seem accurate.
-        </p>
-      </div>
     </div>
   );
 }
