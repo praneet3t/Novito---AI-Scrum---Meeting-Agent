@@ -1,4 +1,3 @@
-```
 import { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -46,7 +45,7 @@ export default function Dashboard() {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">Smart Daily Briefing</h3>
           </div>
           <p className="text-[var(--color-text-primary)] text-sm mb-4">
-            Good morning, <span className="font-medium capitalize">{user}</span>. You have <span className="font-medium">{atRiskTasks.length} high-priority items</span> requiring attention today. 
+            Good morning, <span className="font-medium capitalize">{user}</span>. You have <span className="font-medium">{atRiskTasks.length} high-priority items</span> requiring attention today.
             Team velocity is tracking <span className="text-green-600 font-medium">12% higher</span> than last week.
           </p>
           <div className="grid grid-cols-3 gap-4 border-t border-[var(--color-border)] pt-4">
@@ -107,34 +106,36 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--color-border)]">
-                {myTasks.map(task => (
-                  <tr key={task.id} className="hover:bg-[var(--color-surface-subtle)] transition-colors group">
-                    <td className="px-4 py-3 font-mono text-xs text-[var(--color-text-tertiary)]">#{task.id}</td>
-                    <td className="px-4 py-3 font-medium text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
-                      {task.title}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`badge ${
-  task.status === 'done' ? 'badge-success' :
-    task.status === 'in_progress' ? 'badge-info' :
-      'badge-neutral'
-} `}>
-                        {task.status.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className={`flex items - center gap - 1.5`}>
-                        <div className={`w - 1.5 h - 1.5 rounded - full ${
-  task.priority >= 9 ? 'bg-red-500' :
-    task.priority >= 7 ? 'bg-amber-500' :
-      'bg-blue-500'
-} `}></div>
-                        <span className="text-xs text-[var(--color-text-secondary)]">{task.priority}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-right text-[var(--color-text-secondary)]">{task.due}</td>
-                  </tr>
-                ))}
+                {myTasks.map(task => {
+                  const statusClass = task.status === 'done' ? 'badge-success' :
+                    task.status === 'in_progress' ? 'badge-info' :
+                      'badge-neutral';
+
+                  const priorityColor = task.priority >= 9 ? 'bg-red-500' :
+                    task.priority >= 7 ? 'bg-amber-500' :
+                      'bg-blue-500';
+
+                  return (
+                    <tr key={task.id} className="hover:bg-[var(--color-surface-subtle)] transition-colors group">
+                      <td className="px-4 py-3 font-mono text-xs text-[var(--color-text-tertiary)]">#{task.id}</td>
+                      <td className="px-4 py-3 font-medium text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
+                        {task.title}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`badge ${statusClass}`}>
+                          {task.status.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-1.5">
+                          <div className={`w-1.5 h-1.5 rounded-full ${priorityColor}`}></div>
+                          <span className="text-xs text-[var(--color-text-secondary)]">{task.priority}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-right text-[var(--color-text-secondary)]">{task.due}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -147,28 +148,28 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={completionData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{fill: '#a1a1aa', fontSize: 11}} 
-                  dy={10} 
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#a1a1aa', fontSize: 11 }}
+                  dy={10}
                 />
-                <YAxis 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{fill: '#a1a1aa', fontSize: 11}} 
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#a1a1aa', fontSize: 11 }}
                 />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{
-                    backgroundColor: '#18181b', 
-                    border: 'none', 
-                    borderRadius: '4px', 
+                    backgroundColor: '#18181b',
+                    border: 'none',
+                    borderRadius: '4px',
                     color: '#fff',
                     fontSize: '12px',
                     padding: '8px 12px'
                   }}
-                  cursor={{fill: '#f4f4f5'}}
+                  cursor={{ fill: '#f4f4f5' }}
                 />
                 <Bar dataKey="completed" fill="#18181b" radius={[2, 2, 0, 0]} barSize={32} />
               </BarChart>
@@ -179,4 +180,3 @@ export default function Dashboard() {
     </div>
   );
 }
-```
