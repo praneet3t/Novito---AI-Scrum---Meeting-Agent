@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 
+interface Suggestion {
+  id: number;
+  type: string;
+  confidence: number;
+  payload: any;
+  suggestion_type?: string;
+}
+
 export default function ReviewQueue() {
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

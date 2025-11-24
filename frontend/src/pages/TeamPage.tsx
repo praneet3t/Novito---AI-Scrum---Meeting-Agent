@@ -10,7 +10,7 @@ const teamMembers = [
 
 export default function TeamPage() {
   const [selectedMember, setSelectedMember] = useState<any>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
+  // const [showAddModal, setShowAddModal] = useState(false); // Unused for now
 
   return (
     <div className="space-y-6">
@@ -19,12 +19,12 @@ export default function TeamPage() {
           <h1 className="text-3xl font-bold text-gray-800">Team Management</h1>
           <p className="text-gray-600 mt-1">Manage team members and their assignments</p>
         </div>
-        <button
+        {/* <button
           onClick={() => setShowAddModal(true)}
           className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
         >
           + Add Team Member
-        </button>
+        </button> */}
       </div>
 
       {/* Team Stats */}

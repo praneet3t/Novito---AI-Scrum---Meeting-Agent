@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
 
 const mockTasks = [
   { id: 1, title: 'Complete safety inspection', status: 'in_progress', assignee: 'member', priority: 9 },
@@ -30,91 +30,115 @@ export default function Dashboard() {
   const myTasks = user === 'admin' ? mockTasks : mockTasks.filter(t => t.assignee === user);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-600">Welcome, {user}</p>
+        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
+        <p className="text-slate-500 mt-1">Welcome back, <span className="capitalize font-medium text-indigo-600">{user}</span>. Here's what's happening today.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
-          <h3 className="font-semibold text-blue-800">Total Tasks</h3>
-          <p className="text-3xl font-bold text-blue-600">{mockTasks.length}</p>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="stat-card">
+          <h3 className="metric-label text-indigo-600">Total Tasks</h3>
+          <p className="metric-value text-slate-900 mt-2">{mockTasks.length}</p>
+          <div className="mt-2 text-xs text-slate-500">
+            <span className="text-green-600 font-medium">↑ 12%</span> from last week
+          </div>
         </div>
-        <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
-          <h3 className="font-semibold text-green-800">Completed</h3>
-          <p className="text-3xl font-bold text-green-600">{mockTasks.filter(t => t.status === 'done').length}</p>
+        <div className="stat-card">
+          <h3 className="metric-label text-green-600">Completed</h3>
+          <p className="metric-value text-slate-900 mt-2">{mockTasks.filter(t => t.status === 'done').length}</p>
+          <div className="mt-2 text-xs text-slate-500">
+            <span className="text-green-600 font-medium">↑ 8%</span> completion rate
+          </div>
         </div>
-        <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
-          <h3 className="font-semibold text-yellow-800">In Progress</h3>
-          <p className="text-3xl font-bold text-yellow-600">{mockTasks.filter(t => t.status === 'in_progress').length}</p>
+        <div className="stat-card">
+          <h3 className="metric-label text-amber-600">In Progress</h3>
+          <p className="metric-value text-slate-900 mt-2">{mockTasks.filter(t => t.status === 'in_progress').length}</p>
+          <div className="mt-2 text-xs text-slate-500">
+            Active workflows
+          </div>
         </div>
-        <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-lg">
-          <h3 className="font-semibold text-purple-800">My Tasks</h3>
-          <p className="text-3xl font-bold text-purple-600">{myTasks.length}</p>
-        </div>
-      </div>
-
-      {/* My Tasks */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">My Tasks ({myTasks.length})</h2>
-        <div className="space-y-3">
-          {myTasks.map(task => (
-            <div key={task.id} className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 cursor-pointer">
-              <div className="flex justify-between">
-                <p className="font-medium">{task.title}</p>
-                <span className={`px-2 py-1 rounded text-sm ${
-                  task.status === 'done' ? 'bg-green-100 text-green-800' :
-                  task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {task.status.replace('_', ' ')}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600">Priority: {task.priority}</p>
-            </div>
-          ))}
+        <div className="stat-card">
+          <h3 className="metric-label text-purple-600">My Tasks</h3>
+          <p className="metric-value text-slate-900 mt-2">{myTasks.length}</p>
+          <div className="mt-2 text-xs text-slate-500">
+            <span className="text-indigo-600 font-medium">{myTasks.filter(t => t.priority > 8).length}</span> high priority
+          </div>
         </div>
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Task Completion Trend</h2>
-          <ResponsiveContainer width="100%" height={250}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="card p-6">
+          <h2 className="text-lg font-semibold text-slate-800 mb-6">Task Completion Trend</h2>
+          <ResponsiveContainer width="100%" height={300}>
             <BarChart data={completionData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="completed" fill="#3b82f6" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                cursor={{ fill: '#f1f5f9' }}
+              />
+              <Bar dataKey="completed" fill="#4f46e5" radius={[4, 4, 0, 0]} barSize={40} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Task Status Distribution</h2>
-          <ResponsiveContainer width="100%" height={250}>
+        <div className="card p-6">
+          <h2 className="text-lg font-semibold text-slate-800 mb-6">Status Distribution</h2>
+          <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
                 data={statusData}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
-                label={(entry) => entry.name}
-                outerRadius={80}
-                fill="#8884d8"
+                innerRadius={60}
+                outerRadius={100}
+                paddingAngle={5}
                 dataKey="value"
               >
-                {statusData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {statusData.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={0} />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+              />
+              <Legend verticalAlign="bottom" height={36} iconType="circle" />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* My Tasks */}
+      <div className="card overflow-hidden">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+          <h2 className="text-lg font-semibold text-slate-800">My Tasks</h2>
+          <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700">View All</button>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {myTasks.map(task => (
+            <div key={task.id} className="p-4 hover:bg-slate-50 transition-colors flex items-center justify-between group">
+              <div className="flex items-center gap-4">
+                <div className={`w-2 h-2 rounded-full ${task.priority >= 9 ? 'bg-red-500' :
+                  task.priority >= 7 ? 'bg-amber-500' :
+                    'bg-blue-500'
+                  }`}></div>
+                <div>
+                  <p className="font-medium text-slate-900 group-hover:text-indigo-600 transition-colors">{task.title}</p>
+                  <p className="text-sm text-slate-500">Priority: {task.priority} • Due Tomorrow</p>
+                </div>
+              </div>
+              <span className={`badge ${task.status === 'done' ? 'badge-success' :
+                task.status === 'in_progress' ? 'badge-info' :
+                  'badge-secondary'
+                }`}>
+                {task.status.replace('_', ' ')}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
